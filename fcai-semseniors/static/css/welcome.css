@@ -1,0 +1,174 @@
+/* ── Welcome Page ────────────────────────────────────────────────── */
+
+.welcome-bg {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  background: radial-gradient(ellipse 120% 80% at 50% 120%, #1a0a3e 0%, #07080f 60%);
+}
+
+/* Animated mesh */
+.mesh-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(91,140,255,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(176,107,255,0.10) 0%, transparent 50%),
+    radial-gradient(circle at 80% 10%, rgba(255,107,157,0.08) 0%, transparent 40%);
+  animation: meshShift 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes meshShift {
+  0%   { transform: scale(1) translate(0,0); }
+  100% { transform: scale(1.05) translate(-1%, 1%); }
+}
+
+#particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Center content */
+.welcome-center {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 40px 24px;
+  max-width: 700px;
+  user-select: none;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 18px;
+  border: 1px solid rgba(91,140,255,0.35);
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+  background: rgba(91,140,255,0.07);
+  animation: fadeDown 0.6s ease both;
+}
+
+.typewriter-wrap {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 8vw, 6rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+  min-height: 1.2em;
+  animation: fadeDown 0.6s 0.2s ease both;
+}
+
+.cursor {
+  color: var(--accent);
+  animation: blink 0.9s step-end infinite;
+  font-weight: 300;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.sub {
+  margin-top: 18px;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  animation: fadeDown 0.6s 0.5s ease both;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+/* Enter hint */
+.enter-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 56px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  animation: fadeDown 0.6s 2.5s ease both;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.arrow-ring {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(91,140,255,0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.arrow-ring::after {
+  content: '→';
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(1); border-color: rgba(91,140,255,0.4); }
+  50%       { transform: scale(1.12); border-color: rgba(91,140,255,0.8); }
+}
+
+/* Floating glyphs */
+.glyph {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgba(91,140,255,0.12);
+  pointer-events: none;
+  animation: float linear infinite;
+}
+.g1 { top: 12%; left: 8%;  font-size: 1.8rem; animation-duration: 14s; animation-delay: 0s; }
+.g2 { top: 30%; right: 9%; font-size: 2.2rem; animation-duration: 18s; animation-delay: -4s; }
+.g3 { bottom: 25%; left: 6%;font-size: 1.2rem;animation-duration: 12s; animation-delay: -2s; }
+.g4 { top: 70%; right: 14%;font-size: 2.4rem; animation-duration: 16s; animation-delay: -6s; }
+.g5 { top: 55%; left: 15%; font-size: 2rem;   animation-duration: 20s; animation-delay: -8s; }
+
+@keyframes float {
+  0%   { transform: translateY(0) rotate(0deg);    opacity: 0.08; }
+  25%  { opacity: 0.16; }
+  50%  { transform: translateY(-30px) rotate(5deg); opacity: 0.08; }
+  75%  { opacity: 0.14; }
+  100% { transform: translateY(0) rotate(0deg);    opacity: 0.08; }
+}
+
+/* Transition OUT */
+.welcome-bg.exit {
+  animation: exitFade 0.5s ease forwards;
+}
+@keyframes exitFade {
+  to { opacity: 0; transform: scale(1.03); }
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .typewriter-wrap { font-size: 2.4rem; }
+  .g2, .g4 { display: none; }
+}

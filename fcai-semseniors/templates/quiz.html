@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Department Quiz — FCAI Semi Seniors 26'{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}" />
+{% endblock %}
+
+{% block body %}
+<div class="quiz-bg">
+  <div class="quiz-container"
+       data-total="{{ questions|length }}"
+       data-submit-url="{{ url_for('quiz') }}">
+
+    <!-- Header -->
+    <div class="quiz-header">
+      <a href="{{ url_for('gallery') }}" class="back-link">← Skip for now</a>
+      <h1>Find Your <span class="accent">Department</span></h1>
+      <p>5 quick questions to suggest your best fit for next year.</p>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+    </div>
+    <p class="progress-label"><span id="qNum">1</span> of {{ questions|length }}</p>
+
+    <!-- Questions -->
+    <div class="questions-carousel" id="carousel">
+      {% for q in questions %}
+      <div class="question-slide{% if loop.first %} active{% endif %}" data-qid="{{ q.id }}">
+        <h2 class="q-text">{{ q.question }}</h2>
+        <div class="options-grid">
+          {% for i, opt in enumerate(q.options) %}
+          <button class="option-btn" data-qid="{{ q.id }}" data-idx="{{ i }}">
+            <span class="opt-num">{{ loop.index }}</span>
+            {{ opt.text }}
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+
+      <!-- Result slide -->
+      <div class="question-slide result-slide" id="resultSlide">
+        <div class="result-icon" id="resultIcon"></div>
+        <h2 id="resultTitle">Your Department</h2>
+        <p id="resultDesc"></p>
+        <div class="score-bars" id="scoreBars"></div>
+        <div class="result-actions">
+          <a href="{{ url_for('profile_setup') }}" class="btn-submit" id="resultBtn">
+            Save to My Profile →
+          </a>
+          <button onclick="location.reload()" class="retake-btn" style="margin-top:12px;display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.88rem;font-weight:600;font-family:var(--font-display);cursor:pointer;transition:all .2s;">
+            🔄 Retake Quiz
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+{% endblock %}

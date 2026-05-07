@@ -1,0 +1,228 @@
+/* ── Profile Setup Page ──────────────────────────────────────────── */
+
+.profile-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background:
+    radial-gradient(ellipse 50% 70% at 70% 10%, rgba(176,107,255,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(91,140,255,0.07) 0%, transparent 60%),
+    var(--bg);
+}
+
+.profile-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 48px 44px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: var(--shadow-lg);
+}
+
+.profile-card h1 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.profile-sub {
+  color: var(--text-muted);
+  font-size: 0.93rem;
+  margin-bottom: 32px;
+}
+
+/* Photo upload */
+.photo-upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.photo-preview {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  background: var(--surface2);
+  transition: border-color 0.2s;
+}
+.photo-preview:hover { border-color: var(--accent); }
+
+.photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+.photo-placeholder svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--text-dim);
+}
+
+.photo-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.photo-label:hover { opacity: 0.7; }
+
+/* Fields */
+.profile-form { display: flex; flex-direction: column; gap: 20px; }
+
+.field { display: flex; flex-direction: column; gap: 7px; position: relative; }
+.field label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.field input, .field textarea {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 13px 16px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical;
+}
+.field input:focus, .field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(91,140,255,0.12);
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--text-dim); }
+
+.char-count {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  text-align: right;
+  margin-top: 4px;
+}
+
+@media (max-width: 500px) {
+  .profile-card { padding: 36px 20px; }
+}
+
+/* ── Department Picker ───────────────────────────────────────────── */
+.dept-hint {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+  margin-top: -4px;
+}
+
+.dept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.dept-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 12px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: var(--bg2);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  text-align: center;
+  user-select: none;
+}
+
+.dept-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.dept-card:hover {
+  border-color: var(--accent);
+  background: rgba(91,140,255,0.06);
+  transform: translateY(-2px);
+}
+
+.dept-card.selected,
+.dept-card:has(input:checked) {
+  border-color: var(--accent);
+  background: rgba(91,140,255,0.1);
+  box-shadow: 0 0 0 3px rgba(91,140,255,0.15);
+}
+
+.dept-card.selected[data-dept="CS"],
+.dept-card:has(input[value="CS"]:checked) { border-color: #6C63FF; background: rgba(108,99,255,0.1); box-shadow: 0 0 0 3px rgba(108,99,255,0.15); }
+.dept-card.selected[data-dept="AI"],
+.dept-card:has(input[value="AI"]:checked) { border-color: #FF6584; background: rgba(255,101,132,0.1); box-shadow: 0 0 0 3px rgba(255,101,132,0.15); }
+.dept-card.selected[data-dept="MP"],
+.dept-card:has(input[value="MP"]:checked) { border-color: #43B89C; background: rgba(67,184,156,0.1); box-shadow: 0 0 0 3px rgba(67,184,156,0.15); }
+.dept-card.selected[data-dept="MI"],
+.dept-card:has(input[value="MI"]:checked) { border-color: #F9A825; background: rgba(249,168,37,0.1);  box-shadow: 0 0 0 3px rgba(249,168,37,0.15); }
+
+.dept-icon { font-size: 1.8rem; }
+.dept-name { font-size: 0.78rem; color: var(--text-muted); line-height: 1.3; }
+.dept-code {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* ── Retake Quiz ─────────────────────────────────────────────────── */
+.retake-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.retake-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: var(--font-display);
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+.retake-btn:hover {
+  border-color: var(--accent);
+  background: rgba(91,140,255,0.08);
+  transform: translateY(-2px);
+}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Welcome — FCAI Semi Seniors 26'{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/welcome.css') }}" />
+{% endblock %}
+
+{% block body %}
+<div class="welcome-bg">
+  <!-- Animated mesh background -->
+  <div class="mesh-layer"></div>
+  <canvas id="particles"></canvas>
+
+  <div class="welcome-center" id="welcomeClick" role="button" tabindex="0"
+       aria-label="Click to enter">
+
+    <div class="badge">Faculty of Computers & Artificial Intelligence</div>
+
+    <h1 class="typewriter-wrap">
+      <span id="typewriter"></span><span class="cursor">|</span>
+    </h1>
+
+    <p class="sub">Class of 2026 &nbsp;·&nbsp; Semester Memories</p>
+
+    <div class="enter-hint" id="enterHint">
+      <span class="arrow-ring"></span>
+      <span>Click anywhere to enter</span>
+    </div>
+  </div>
+
+  <!-- Floating glyphs -->
+  <div class="glyph g1">⟨ / ⟩</div>
+  <div class="glyph g2">{ }</div>
+  <div class="glyph g3">01</div>
+  <div class="glyph g4">∑</div>
+  <div class="glyph g5">λ</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/welcome.js') }}"></script>
+{% endblock %}

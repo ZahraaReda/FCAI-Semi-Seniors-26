@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}Memory Wall — FCAI Semi Seniors 26'{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gallery.css') }}" />
+{% endblock %}
+
+{% block body %}
+<!-- ── NAV BAR ─────────────────────────────────────────── -->
+<header class="nav">
+  <a href="{{ url_for('welcome') }}" class="nav-logo">
+    <span class="logo-mark">F</span>FCAI <em>26'</em>
+  </a>
+
+  <nav class="nav-links">
+    <a href="{{ url_for('gallery') }}" class="nav-link active">Memory Wall</a>
+  </nav>
+
+  <div class="nav-actions">
+    {% if current_user %}
+      <a href="{{ url_for('profile_setup') }}" class="btn-outline">Edit Profile</a>
+      <a href="{{ url_for('logout') }}" class="btn-ghost">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}" class="btn-outline">Login</a>
+      <a href="{{ url_for('register') }}" class="btn-primary">Join</a>
+    {% endif %}
+
+    <!-- Profile icon circle -->
+    <a href="{{ url_for('profile_setup') if current_user else url_for('login') }}"
+       class="profile-circle" title="{{ current_user or 'Sign in' }}">
+      {% if current_user %}
+        {{ current_user[0].upper() }}
+      {% else %}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      {% endif %}
+    </a>
+  </div>
+</header>
+
+<!-- ── HERO ──────────────────────────────────────────────── -->
+<section class="gallery-hero">
+  <h1>Memory <span class="accent">Wall</span></h1>
+  <p>Every face, every quote — our journey together.</p>
+</section>
+
+<!-- ── FILTER BAR ────────────────────────────────────────── -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-dept="all">All</button>
+  <button class="filter-btn" data-dept="CS">💻 CS</button>
+  <button class="filter-btn" data-dept="AI">🤖 AI</button>
+  <button class="filter-btn" data-dept="MP">📱 MP</button>
+  <button class="filter-btn" data-dept="MI">🏥 MI</button>
+</div>
+
+<!-- ── GALLERY GRID ──────────────────────────────────────── -->
+<main class="gallery-grid" id="galleryGrid">
+  {% if profiles %}
+    {% for p in profiles %}
+    <article class="card" data-dept="{{ p.department or 'none' }}">
+      <div class="card-photo-wrap">
+        {% if p.photo_filename %}
+          <img src="{{ url_for('uploaded_file', filename=p.photo_filename) }}"
+               alt="{{ p.full_name }}" class="card-photo" loading="lazy" />
+        {% else %}
+          <div class="card-photo card-photo--placeholder">
+            {{ p.full_name[0].upper() }}
+          </div>
+        {% endif %}
+        {% if p.department %}
+        <span class="dept-badge dept-{{ p.department }}">
+          {{ {'CS':'💻','AI':'🤖','MP':'📱','MI':'🏥'}[p.department] }}
+          {{ p.department }}
+        </span>
+        {% endif %}
+      </div>
+
+      <div class="card-body">
+        <h3 class="card-name">{{ p.full_name }}</h3>
+        {% if p.senior_quote %}
+          <p class="card-quote">"{{ p.senior_quote }}"</p>
+        {% endif %}
+        {% if p.department %}
+          <p class="card-dept">
+            Future: <strong>{{ {'CS':'Cyber Security','AI':'Artificial Intelligence',
+                                'MP':'Mobile Programming','MI':'Medical Informatics'}[p.department] }}</strong>
+          </p>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">📸</div>
+      <h2>No memories yet!</h2>
+      <p>Be the first to add your photo to the wall.</p>
+      <a href="{{ url_for('register') }}" class="btn-primary">Get Started</a>
+    </div>
+  {% endif %}
+</main>
+
+<!-- ── FLASH MESSAGES ────────────────────────────────────── -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="toast-container">
+      {% for cat, msg in messages %}
+        <div class="toast toast--{{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<!-- ── FAB: Add yourself ─────────────────────────────────── -->
+{% if not current_user %}
+<a href="{{ url_for('register') }}" class="fab" title="Add your memory">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+  </svg>
+</a>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/gallery.js') }}"></script>
+{% endblock %}

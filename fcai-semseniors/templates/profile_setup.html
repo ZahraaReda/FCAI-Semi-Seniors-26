@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Setup Profile — FCAI Semi Seniors 26'{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}" />
+{% endblock %}
+
+{% block body %}
+<div class="profile-bg">
+  <div class="profile-card">
+    <a href="{{ url_for('gallery') }}" class="back-link">← Back to Wall</a>
+
+    <h1>Your <span class="accent">Profile</span></h1>
+    <p class="profile-sub">Fill in your details to appear on the memory wall.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}{% for cat,msg in messages %}
+        <div class="alert alert--{{ cat }}">{{ msg }}</div>
+      {% endfor %}{% endif %}
+    {% endwith %}
+
+    <form method="POST" enctype="multipart/form-data" class="profile-form">
+
+      <!-- Photo Upload -->
+      <div class="photo-upload-area" id="photoArea">
+        <input type="file" name="photo" id="photoInput"
+               accept="image/*" class="hidden-file" />
+        <div class="photo-preview" id="photoPreview">
+          {% if profile and profile.photo_filename %}
+            <img src="{{ url_for('uploaded_file', filename=profile.photo_filename) }}"
+                 alt="Current photo" id="previewImg" />
+          {% else %}
+            <div class="photo-placeholder" id="photoPlaceholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="4"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <path d="M21 15l-5-5L5 21"/>
+              </svg>
+              <span>Upload Photo</span>
+            </div>
+          {% endif %}
+        </div>
+        <label for="photoInput" class="photo-label">
+          {{ 'Change Photo' if profile and profile.photo_filename else 'Choose Photo' }}
+        </label>
+      </div>
+
+      <!-- Full Name -->
+      <div class="field">
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" name="full_name"
+               placeholder="Ahmed Mohamed Ali"
+               value="{{ profile.full_name if profile else '' }}" required />
+      </div>
+
+      <!-- Senior Quote -->
+      <div class="field">
+        <label for="senior_quote">Senior Quote</label>
+        <textarea id="senior_quote" name="senior_quote"
+                  placeholder="Leave a quote that defines your journey..."
+                  maxlength="200" rows="3">{{ profile.senior_quote if profile else '' }}</textarea>
+        <span class="char-count"><span id="quoteLen">0</span>/200</span>
+      </div>
+
+      <!-- Department Picker -->
+      <div class="field">
+        <label>Department</label>
+        <p class="dept-hint">Pick manually, or take the quiz to get a suggestion.</p>
+
+        <div class="dept-grid">
+          {% set current_dept = profile.department if profile else '' %}
+
+          <label class="dept-card {% if current_dept == 'CS' %}selected{% endif %}">
+            <input type="radio" name="department" value="CS"
+                   {{ 'checked' if current_dept == 'CS' }} />
+            <span class="dept-icon">💻</span>
+            <span class="dept-name">Computer Science</span>
+            <span class="dept-code">CS</span>
+          </label>
+
+          <label class="dept-card {% if current_dept == 'AI' %}selected{% endif %}">
+            <input type="radio" name="department" value="AI"
+                   {{ 'checked' if current_dept == 'AI' }} />
+            <span class="dept-icon">🤖</span>
+            <span class="dept-name">Artificial Intelligence</span>
+            <span class="dept-code">AI</span>
+          </label>
+
+          <label class="dept-card {% if current_dept == 'MP' %}selected{% endif %}">
+            <input type="radio" name="department" value="MP"
+                   {{ 'checked' if current_dept == 'MP' }} />
+            <span class="dept-icon">📱</span>
+            <span class="dept-name">Mobile Programming</span>
+            <span class="dept-code">MP</span>
+          </label>
+
+          <label class="dept-card {% if current_dept == 'MI' %}selected{% endif %}">
+            <input type="radio" name="department" value="MI"
+                   {{ 'checked' if current_dept == 'MI' }} />
+            <span class="dept-icon">🏥</span>
+            <span class="dept-name">Medical Informatics</span>
+            <span class="dept-code">MI</span>
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Save Profile</button>
+    </form>
+
+    <!-- Retake Quiz -->
+    <div class="retake-wrap">
+      <span>Not sure about your department?</span>
+      <a href="{{ url_for('quiz') }}" class="retake-btn">
+        🧠 Take the Quiz
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}
