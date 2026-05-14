@@ -22,15 +22,13 @@ A full-stack web application built for college students to share memories, momen
 - JavaScript
 
 ### Backend
-- Flask
+- Python(Flask)
 
 ### Database
 - PostgreSQL
 
 ### Deployment
-- Railway (Database)
-- Render / Azure (Backend)
-- Vercel / Netlify (Frontend)
+- Replit
 
 ---
 
@@ -39,16 +37,17 @@ A full-stack web application built for college students to share memories, momen
 ```bash
 MemoryWall/
 │
-├── Frontend/
-│   ├── HTML
+├── Database/
+│   └──schema.sql
+│
+├── Static/
+│   ├── Uploads
 │   ├── CSS
 │   └── JavaScript
 │
-├── Backend/
-│   ├── Controllers/
-│   ├── Models/
-│   ├── Services/
-│   ├── DTOs/
-│   └── Data/
+├── Templates/
+│   └── HTML
+│
+├── App.py
 │
 └── README.md
